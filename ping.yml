@@ -1,0 +1,11 @@
+---
+- name: Basic shell run
+  remote_user: root
+  hosts: api_server
+  tasks:
+     - name: Run shell
+       shell: |
+        whoami
+        echo {{tag}}
+        uptime & uname -a
+        echo "Test" > /dev/null

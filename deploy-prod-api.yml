@@ -1,0 +1,26 @@
+---
+- name: Estuary API Node Deployment
+  remote_user: root
+  hosts: api_server
+  tasks:
+     - name: Execute the script
+       shell: |
+        whoami
+        uptime & uname -a
+        cd /mnt/build/estuary
+        git fetch --tags
+        git checkout {{tag}}
+        git pull origin {{tag}}
+        make all
+     - name: Stop the process (nginx and api node)
+       shell: |
+        systemctl stop nginx.service
+        systemctl stop estuary.service
+     - name: Copy from build to bin
+       shell: | 
+        cd /mnt/build/estuary
+        cp estuary /mnt/bin/
+     - name: Start the process (api node and nginx)
+       shell: |
+        systemctl restart nginx.service
+        systemctl restart estuary.service
