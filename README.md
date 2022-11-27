@@ -1,4 +1,4 @@
-# Ansible Playbook for building and deploying Estuary directly on remote servers.
+# Ansible Playbook for building and deploying Estuary directly to remote servers.
 
 This is a basic playbook that just runs the same remote command we are manually running.
 
