@@ -1,6 +1,6 @@
-# Ansible Playbook for Building and Deploying Estuary.
+# Ansible Playbook for building and deploying Estuary directly on remote servers.
 
-This is a basic playbook that just runs the same remote command we are doing.
+This is a basic playbook that just runs the same remote command we are manually running.
 
 ## Prerequisite
 - Install ansible and ansible playbook cli. Follow the instructions [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
