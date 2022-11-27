@@ -1,0 +1,8 @@
+- name: New Shuttle
+  remote_user: root
+  hosts: new_shuttle_servers
+  tasks:
+     - name: Create the storage
+     - name: Create the folders
+     - name: Generate the Shuttle Handle/Token
+     - name: Execute the script

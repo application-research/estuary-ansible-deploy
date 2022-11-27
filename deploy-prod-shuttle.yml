@@ -1,3 +1,39 @@
+- name: Shuttle-1 Deployment
+  remote_user: root
+  hosts: shuttle_1
+  tasks:
+     - name: Make sure we have Go
+       shell: |
+        whoami
+        uptime & uname -a
+        export GOPATH=$HOME/go
+        export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+     - name: Build 
+       shell: |
+        cd /home/why/code/estuary
+        git fetch --tags
+        git checkout {{tag}}
+        git pull origin {{tag}}
+        make all
+
+- name: Shuttle-2 Deployment
+  remote_user: estuary
+  hosts: shuttle_2
+  tasks:
+     - name: Make sure we have Go
+       shell: |
+        whoami
+        uptime & uname -a
+        export GOPATH=$HOME/go
+        export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+     - name: Build 
+       shell: |
+        cd /home/estuary/code/estuary
+        git fetch --tags
+        git checkout {{tag}}
+        git pull origin {{tag}}
+        make all
+
 - name: Shuttle-6 Deployment
   remote_user: root
   hosts: shuttle_servers
@@ -14,11 +50,11 @@
      - name: Stop the process (nginx and api node)
        shell: |
         systemctl stop nginx.service
-        systemctl stop estuary.service
+        systemctl stop estuary-shuttle.service
      - name: Copy from build to bin
        shell: | 
         cd /home/estuary/source/estuary/
-        cp estuary /usr/local/bin/
+        cp estuary-shuttle /usr/local/bin/
      - name: Start the process (api node and nginx)
        shell: |
         systemctl restart nginx.service
@@ -40,11 +76,11 @@
      - name: Stop the process (nginx and node)
        shell: |
         systemctl stop nginx.service
-        systemctl stop estuary.service
+        systemctl stop estuary-shuttle.service
      - name: Copy from build to bin
        shell: | 
         cd /root/estuary
-        cp estuary /usr/local/bin/
+        cp estuary-shuttle /usr/local/bin/
      - name: Start the process (node and nginx)
        shell: |
         systemctl restart nginx.service
@@ -67,11 +103,11 @@
      - name: Stop the process (nginx and node)
        shell: |
         systemctl stop nginx.service
-        systemctl stop estuary.service
+        systemctl stop estuary-shuttle.service
      - name: Copy from build to bin
        shell: | 
         cd /root/estuary
-        cp estuary /usr/local/bin/
+        cp estuary-shuttle /usr/local/bin/
      - name: Start the process (node and nginx)
        shell: |
         systemctl restart nginx.service
