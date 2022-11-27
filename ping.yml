@@ -6,6 +6,5 @@
      - name: Run shell
        shell: |
         whoami
-        echo {{tag}}
         uptime & uname -a
         echo "Test" > /dev/null
