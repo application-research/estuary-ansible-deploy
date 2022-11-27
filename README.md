@@ -5,6 +5,7 @@ This is a basic playbook that just runs the same remote command we are doing.
 ## Prerequisite
 - Install ansible and ansible playbook cli. Follow the instructions [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 - Generate a SSH key and apply the SSH key to each of the host. (Generate ssh and add the public key to ~/.ssh/authorize_key of each server)
+- Replace the inventory files (.ini) with your host ssh private key (e.i `shuttle-6.estuary.tech ansible_user=root ansible_ssh_private_key_file=~/.ssh/estuary`)
 
 ## Running
 ### Ping only (just test)
