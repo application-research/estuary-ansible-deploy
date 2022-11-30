@@ -22,5 +22,5 @@
         cp estuary /mnt/bin/
      - name: Start the process (api node and nginx)
        shell: |
-        systemctl restart nginx.service
         systemctl restart estuary.service
+        systemctl restart nginx.service
