@@ -34,7 +34,7 @@
         git pull origin {{tag}}
         make all
 
-- name: Shuttle-6 Deployment
+- name: Shuttle Server Deployment
   remote_user: root
   hosts: shuttle_servers
   tasks:
@@ -60,56 +60,4 @@
         systemctl restart nginx.service
         systemctl restart estuary-shuttle.service
 
-- name: Shuttle-7 Deployment
-  remote_user: root
-  hosts: shuttle_servers
-  tasks:
-     - name: Execute the script
-       shell: |
-        whoami
-        uptime & uname -a
-        cd /root/estuary/
-        git fetch --tags
-        git checkout {{tag}}
-        git pull origin {{tag}}
-        make all
-     - name: Stop the process (nginx and node)
-       shell: |
-        systemctl stop nginx.service
-        systemctl stop estuary-shuttle.service
-     - name: Copy from build to bin
-       shell: | 
-        cd /root/estuary
-        cp estuary-shuttle /usr/local/bin/
-     - name: Start the process (node and nginx)
-       shell: |
-        systemctl restart nginx.service
-        systemctl restart estuary-shuttle.service
-
-
-- name: Shuttle-8 Deployment
-  remote_user: root
-  hosts: shuttle_servers
-  tasks:
-     - name: Execute the script
-       shell: |
-        whoami
-        uptime & uname -a
-        cd /root/estuary/
-        git fetch --tags
-        git checkout {{tag}}
-        git pull origin {{tag}}
-        make all
-     - name: Stop the process (nginx and node)
-       shell: |
-        systemctl stop nginx.service
-        systemctl stop estuary-shuttle.service
-     - name: Copy from build to bin
-       shell: | 
-        cd /root/estuary
-        cp estuary-shuttle /usr/local/bin/
-     - name: Start the process (node and nginx)
-       shell: |
-        systemctl restart nginx.service
-        systemctl restart estuary-shuttle.service
 
