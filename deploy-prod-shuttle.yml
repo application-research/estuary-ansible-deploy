@@ -34,7 +34,7 @@
         git pull origin {{tag}}
         make all
 
-- name: Shuttle Server Deployment
+- name: Shuttle Servers Deployment
   remote_user: root
   hosts: shuttle_servers
   tasks:
