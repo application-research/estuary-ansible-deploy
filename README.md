@@ -16,8 +16,9 @@ ansible-playbook -i prod/inventory.ini -k ping.yml
 ### Run the remote command to build and deploy
 Run the following command to deploy for each hosts.
 ```
-ansible-playbook -i prod/inventory.ini -k deploy-prod-api.yml --extra-vars "tag=v0.2.0"
-ansible-playbook -i prod/inventory.ini -k deploy-prod-shuttle.yml --extra-vars "tag=v0.2.0"
+ansible-playbook -i prod/inventory.ini -k deploy-prod-api.yml --extra-vars "tag=v0.2.4"
+ansible-playbook -i prod/inventory.ini -k deploy-prod-shuttle.yml --extra-vars "tag=v0.2.4"
+ansible-playbook -i prod/inventory.ini -k deploy-prod-gateway.yml --extra-vars "tag=v0.2.4"
 ```
 
 ### Using the shell script

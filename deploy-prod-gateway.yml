@@ -1,0 +1,19 @@
+- name: Gateways
+  hosts: gateway_servers
+  tasks:
+    - name: Fetch Tag
+      shell: |
+        whoami
+        uptime & uname -a
+        cd "{{ install_dir }}"
+        git fetch --tags
+        git checkout {{tag}}
+        git pull origin {{tag}}
+    - name: Build and Install
+      shell: |
+        systemctl stop s5-gateway.service
+        go build -tags netgo -ldflags '-s -w' -o shuttle-5-gw
+    - name: Restart
+      shell: |
+        systemctl restart s5-gateway.service
+        systemctl restart nginx.service
