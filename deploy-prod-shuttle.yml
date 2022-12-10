@@ -1,63 +1,45 @@
-- name: Shuttle-1 Deployment
-  remote_user: root
-  hosts: shuttle_1
+- name: Shuttle Legacy Deployment
+  hosts: shuttle_legacy
   tasks:
-     - name: Make sure we have Go
-       shell: |
+    - name: Fetch Tag
+      shell: |
         whoami
         uptime & uname -a
-        export GOPATH=$HOME/go
-        export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-     - name: Build 
-       shell: |
-        cd /home/why/code/estuary
+        cd "{{ install_dir }}"
         git fetch --tags
         git checkout {{tag}}
         git pull origin {{tag}}
-        make all
-
-- name: Shuttle-2 Deployment
-  remote_user: estuary
-  hosts: shuttle_2
-  tasks:
-     - name: Make sure we have Go
-       shell: |
-        whoami
-        uptime & uname -a
-        export GOPATH=$HOME/go
-        export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-     - name: Build 
-       shell: |
-        cd /home/estuary/code/estuary
-        git fetch --tags
-        git checkout {{tag}}
-        git pull origin {{tag}}
-        make all
+    - name: Build
+      make:
+        chdir: "{{ install_dir }}"
+        target: all
+      environment:
+        PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
 
 - name: Shuttle Servers Deployment
-  remote_user: root
   hosts: shuttle_servers
   tasks:
-     - name: Execute the script
-       shell: |
+    - name: Fetch Tag
+      shell: |
         whoami
         uptime & uname -a
-        cd /home/estuary/source/estuary/
+        cd "{{ install_dir }}"
         git fetch --tags
         git checkout {{tag}}
         git pull origin {{tag}}
-        make all
-     - name: Stop the process (nginx and api node)
-       shell: |
+    - name: Build
+      make:
+        chdir: "{{ install_dir }}"
+        target: all
+    - name: Stop the process (nginx and api node)
+      shell: |
         systemctl stop nginx.service
         systemctl stop estuary-shuttle.service
-     - name: Copy from build to bin
-       shell: | 
-        cd /home/estuary/source/estuary/
+    - name: Copy from build to bin
+      shell: |
+        cd "{{ install_dir }}"
         cp estuary-shuttle /usr/local/bin/
-     - name: Start the process (api node and nginx)
-       shell: |
+    - name: Start the process (api node and nginx)
+      shell: |
         systemctl restart nginx.service
         systemctl restart estuary-shuttle.service
-
-

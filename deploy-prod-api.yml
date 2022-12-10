@@ -3,24 +3,27 @@
   remote_user: root
   hosts: api_server
   tasks:
-     - name: Execute the script
-       shell: |
+    - name: Execute the script
+      shell: |
         whoami
         uptime & uname -a
-        cd /mnt/build/estuary
+        cd "{{ install_dir }}"
         git fetch --tags
         git checkout {{tag}}
         git pull origin {{tag}}
-        make all
-     - name: Stop the process (nginx and api node)
-       shell: |
+    - name: Build
+      make:
+        chdir: "{{ install_dir }}"
+        target: all
+    - name: Stop the process (nginx and api node)
+      shell: |
         systemctl stop nginx.service
         systemctl stop estuary.service
-     - name: Copy from build to bin
-       shell: | 
-        cd /mnt/build/estuary
+    - name: Copy from build to bin
+      shell: | 
+        cd "{{ install_dir }}"
         cp estuary /mnt/bin/
-     - name: Start the process (api node and nginx)
-       shell: |
+    - name: Start the process (api node and nginx)
+      shell: |
         systemctl restart estuary.service
         systemctl restart nginx.service
