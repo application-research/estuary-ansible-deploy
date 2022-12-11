@@ -16,6 +16,7 @@
       environment:
         PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
 
+
 - name: Shuttle Servers Deployment
   hosts: shuttle_servers
   tasks:
