@@ -1,0 +1,9 @@
+---
+- name: Get Tag
+  shell: |
+    whoami
+    uptime & uname -a
+    cd "{{ install_dir }}"
+    git fetch --tags
+    git checkout {{tag}}
+    git pull origin {{tag}}

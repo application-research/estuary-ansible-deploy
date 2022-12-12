@@ -3,14 +3,9 @@
   remote_user: root
   hosts: api_server
   tasks:
-    - name: Execute the script
-      shell: |
-        whoami
-        uptime & uname -a
-        cd "{{ install_dir }}"
-        git fetch --tags
-        git checkout {{tag}}
-        git pull origin {{tag}}
+    - name: Get Tag
+      include_role:
+        name: git-fetch-tag
     - name: Build
       make:
         chdir: "{{ install_dir }}"
