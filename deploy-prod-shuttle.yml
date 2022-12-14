@@ -6,12 +6,13 @@
         whoami
         uptime & uname -a
         cd "{{ install_dir }}"
+        git reset --hard 
         git fetch --tags
         git checkout {{tag}}
         git pull origin {{tag}}
     - name: Build
       make:
-        chdir: "{{ install_dir }}"
+        chdir: "{{ install_dir }}" 
         target: all
       environment:
         PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
@@ -25,6 +26,7 @@
         whoami
         uptime & uname -a
         cd "{{ install_dir }}"
+        git reset --hard 
         git fetch --tags
         git checkout {{tag}}
         git pull origin {{tag}}
@@ -40,7 +42,7 @@
       shell: |
         cd "{{ install_dir }}"
         cp estuary-shuttle /usr/local/bin/
-    - name: Start the process (api node and nginx)
+    - name: Start the process (node and nginx)
       shell: |
         systemctl restart nginx.service
         systemctl restart estuary-shuttle.service
