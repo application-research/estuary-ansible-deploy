@@ -6,7 +6,7 @@
         name: git-fetch-tag
     - name: Build
       make:
-        chdir: "{{ install_dir }}"
+        chdir: "{{ install_dir }}" 
         target: all
       environment:
         PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
@@ -30,7 +30,7 @@
       shell: |
         cd "{{ install_dir }}"
         cp estuary-shuttle /usr/local/bin/
-    - name: Start the process (api node and nginx)
+    - name: Start the process (node and nginx)
       shell: |
         systemctl restart nginx.service
         systemctl restart estuary-shuttle.service
