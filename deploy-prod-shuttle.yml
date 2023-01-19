@@ -46,3 +46,25 @@
       shell: |
         systemctl restart nginx.service
         systemctl restart estuary-shuttle.service
+
+
+- name: New Shuttle Servers Deployment
+  hosts: latest_shuttle_servers
+  tasks:
+    - name: Fetch Tag
+      shell: |
+        whoami
+        uptime & uname -a
+        cd "{{ install_dir }}"
+        git reset --hard 
+        git fetch --tags
+        git checkout {{tag}}
+        git pull origin {{tag}}
+    - name: Build
+      make:
+        chdir: "{{ install_dir }}"
+        target: all
+    - name: Start the process (node and nginx)
+      shell: |
+        systemctl restart nginx.service
+        systemctl restart estuary-shuttle.service
