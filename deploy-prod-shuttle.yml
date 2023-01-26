@@ -1,15 +1,9 @@
 - name: Shuttle Legacy Deployment
   hosts: shuttle_legacy
   tasks:
-    - name: Fetch Tag
-      shell: |
-        whoami
-        uptime & uname -a
-        cd "{{ install_dir }}"
-        git reset --hard 
-        git fetch --tags
-        git checkout {{tag}}
-        git pull origin {{tag}}
+    - name: Get Tag
+      include_role:
+        name: git-fetch-tag
     - name: Build
       make:
         chdir: "{{ install_dir }}" 
@@ -21,15 +15,9 @@
 - name: Shuttle Servers Deployment
   hosts: shuttle_servers
   tasks:
-    - name: Fetch Tag
-      shell: |
-        whoami
-        uptime & uname -a
-        cd "{{ install_dir }}"
-        git reset --hard 
-        git fetch --tags
-        git checkout {{tag}}
-        git pull origin {{tag}}
+    - name: Get Tag
+      include_role:
+        name: git-fetch-tag
     - name: Build
       make:
         chdir: "{{ install_dir }}"
@@ -51,15 +39,13 @@
 - name: New Shuttle Servers Deployment
   hosts: latest_shuttle_servers
   tasks:
-    - name: Fetch Tag
+    - name: Get Tag
+      include_role:
+        name: git-fetch-tag
+    - name: Stop the process (nginx and api node)
       shell: |
-        whoami
-        uptime & uname -a
-        cd "{{ install_dir }}"
-        git reset --hard 
-        git fetch --tags
-        git checkout {{tag}}
-        git pull origin {{tag}}
+        systemctl stop nginx.service
+        systemctl stop estuary-shuttle.service
     - name: Build
       make:
         chdir: "{{ install_dir }}"
